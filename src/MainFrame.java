@@ -12,19 +12,17 @@
  * in adapting to additional features and improved processing capabilities.
  * -------------------------------------------------------------------------------
  * Author:  Patrik Eigemann
- * eMail:   p.eigenmann@gmx.net
+ * eMail:   p.eigenmann72@gmail.com
+ * GitHub:  www.github.com/PatrikEigemann72/HelloJWorld
  * -------------------------------------------------------------------------------
  * Change Log:
  * Mon 2025-05-26 File created.                                     Version: 00.01
  * ------------------------------------------------------------------------------- */
-//package HelloWorld;
 
 import java.awt.Font;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-
-//import Samael.ITrackable;
-//import Samael.Chronicle.Version;
+import samael.huginandmunin.Config;
 
 /**
  * This class serves as the primary window for the application.
@@ -41,8 +39,12 @@ import javax.swing.JLabel;
  */
 //@Version(namespace = "HelloWorld", component = "MainFrame", major = 0, minor = 1)
 public class MainFrame extends JFrame /*implements ITrackable*/ {
+    
+    /**
+     * 
+     */
     public MainFrame() {
-        setTitle("HelloWorld");
+        setTitle(Config.get("App.Name") + " - " + Config.get("App.Version"));
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null); // Center the window

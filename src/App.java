@@ -13,20 +13,15 @@
  * streamlined and predictable across multiple use cases.
  * -------------------------------------------------------------------------------
  * Author:  Patrik Eigemann
- * eMail:   p.eigenmann@gmx.net
- * GitHub:  www.github.com/PatrikEigemann/Java
+ * eMail:   p.eigenmann72@gmail.com
+ * GitHub:  www.github.com/PatrikEigemann72/HelloJWorld
  * -------------------------------------------------------------------------------
  * Change Log:
  * Mon 2025-05-26 File created.                                     Version: 00.01
  * ------------------------------------------------------------------------------- */
 
-//import HelloWorld.*;
-
-//import Samael.ToolBox.ConsoleUtilities;
-//import Samael.ITrackable;
-//import Samael.Chronicle.Version;
-
 import javax.swing.SwingUtilities;
+import samael.huginandmunin.*;
 
 /**
  * App.java -  The App class serves as the entry point for the application. When
@@ -63,6 +58,15 @@ public class App /*implements ITrackable*/ {
      */
     public static void main(String[] args) {
 
+        Debug.init(args);
+        Log.init(Config.get("App.LogName"));
+
+        Debug.setBitmask(Debug.DebugLevel.All.value);
+        Log.setBitmask(Log.LogLevel.All.value);
+
+        Debug.writeLine(Debug.DebugLevel.Info, "Application is starting...", "App");
+        Log.writeLine(Log.LogLevel.Info, "Application is starting...", "App");
+        
         // Using SwingUtilities.invokeLater to start a
         // Swing application as background task.
         SwingUtilities.invokeLater(() -> {
@@ -70,12 +74,5 @@ public class App /*implements ITrackable*/ {
             mf.setVisible(true);
         });
 
-        // Using ConsoleUtilities.InvokeLater to start a
-        // Console application as background task.
-        //ConsoleUtilities.InvokeLater(() -> {
-        //    MainConsole.Run(args);
-        //});
-
-        //ConsoleUtilities.ShutDown();
     }
 }
