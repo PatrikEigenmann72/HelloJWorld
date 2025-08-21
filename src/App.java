@@ -18,8 +18,9 @@
  * -------------------------------------------------------------------------------
  * Change Log:
  * Mon 2025-05-26 File created.                                     Version: 00.01
+ * Thu 2025-08-21 Reorganized project structure and namespaces.     Version: 00.02
  * ------------------------------------------------------------------------------- */
-
+import hellojworld.gui.*;
 import javax.swing.SwingUtilities;
 import samael.huginandmunin.*;
 
@@ -37,8 +38,7 @@ import samael.huginandmunin.*;
  * the system knows to start. This class fulfills that role, keeping the application
  * streamlined and predictable across multiple use cases.
  */
-//@Version(namespace = "HelloWorld", component = "App", major = 0, minor = 1)
-public class App /*implements ITrackable*/ {
+public class App {
 
     /**
      * The main method acts as the starting point of the application. When the program
@@ -73,6 +73,5 @@ public class App /*implements ITrackable*/ {
             MainFrame mf = new MainFrame();
             mf.setVisible(true);
         });
-
     }
 }

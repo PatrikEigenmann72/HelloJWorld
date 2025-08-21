@@ -18,6 +18,7 @@
  * Change Log:
  * Mon 2025-05-26 File created.                                     Version: 00.01
  * ------------------------------------------------------------------------------- */
+package hellojworld.gui;
 
 // Standard Java imports.
 import java.awt.Font;
@@ -38,7 +39,6 @@ import samael.huginandmunin.*;
  * while maintaining scalability for future enhancements. This ensures flexibility
  * in adapting to additional features and improved processing capabilities.
  */
-//@Version(namespace = "HelloWorld", component = "MainFrame", major = 0, minor = 1)
 public class MainFrame extends JFrame /*implements ITrackable*/ {
 
     /**
