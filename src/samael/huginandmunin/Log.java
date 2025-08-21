@@ -16,28 +16,56 @@
 // --------------------------------------------------------------------------------------------
 package samael.huginandmunin;
 
+/**
+ * Standard Java imports. These are the necessary imports for file I/O and date/time formatting.
+ */
 import java.io.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * This class is part of the samael.huginandmunin library. The Log class provides a logging utility
+ * for writing log messages at different levels (error, warning, info, verbose) to a log file
+ * (application name.log). The file will be stored in the user's Documents\Logs directory.
+ */
 public final class Log {
 
+    /**
+     * This enum defines the different log levels available in the logging utility.
+     */
     public enum LogLevel {
-        None(0),
+        None(0),                                                            // No logging
         @SuppressWarnings("PointlessBitwiseExpression")
-        Error(1 << 0),
-        Warning(1 << 1),
-        Info(1 << 2),
-        Verbose(1 << 3),
-        All(Error.value | Warning.value | Info.value | Verbose.value);
+        Error(1 << 0),                                                      // Error logging
+        Warning(1 << 1),                                                    // Warning logging
+        Info(1 << 2),                                                       // Info logging
+        Verbose(1 << 3),                                                    // Verbose logging
+        All(Error.value | Warning.value | Info.value | Verbose.value);      // All logging
 
+        /**
+         * The bitmask value representing the log level.
+         */
         public final int value;
+        
+        /**
+         * Constructor for the LogLevel enum.
+         */
         LogLevel(int value) { this.value = value; }
     }
 
+    /**
+     * The bitmask value representing the active log levels.
+     */
     private static int bitmask = LogLevel.All.value;
+
+    /**
+     * The name of the log file.
+     */
     private static String logFileName;
 
+    /**
+     * The init method initializes the logging utility with a specific log file name.
+     */
     public static void init(String fileName) {
         String home = System.getProperty("user.home");
         File logDir = new File(home, "Documents\\Logs");
@@ -59,10 +87,20 @@ public final class Log {
         }
     }
 
+    /**
+     * Sets the bitmask for the active log levels.
+     * @param bitmaskIn The new bitmask value.
+     */
     public static void setBitmask(int bitmaskIn) {
         bitmask = bitmaskIn;
     }
 
+    /**
+     * Writes a log message to the log file.
+     * @param level The log level of the message.
+     * @param message The log message.
+     * @param component The name of the component logging the message.
+     */
     public static void writeLine(LogLevel level, String message, String component) {
         if ((bitmask & level.value) == 0 || logFileName == null) return;
 
@@ -80,6 +118,10 @@ public final class Log {
         }
     }
 
+    /**
+     * Writes an exception stack trace to the log file.
+     * @param ex The exception to log.
+     */
     public static void writeException(Exception ex) {
         if ((bitmask & LogLevel.Error.value) == 0 || logFileName == null) return;
 
@@ -98,10 +140,19 @@ public final class Log {
         }
     }
 
+    /**
+     * Opens the log file for writing.
+     * @return A PrintWriter for the log file.
+     * @throws IOException If an I/O error occurs.
+     */
     private static PrintWriter open() throws IOException {
         return new PrintWriter(new FileWriter(logFileName, true), true);
     }
 
+    /**
+     * Closes the log file.
+     * @param writer The PrintWriter for the log file.
+     */
     private static void close(PrintWriter writer) {
         if (writer != null) {
             writer.close();

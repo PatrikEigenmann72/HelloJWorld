@@ -19,6 +19,7 @@
  * --------------------------------------------------------------------------------------------- */
 package samael.huginandmunin;
 
+// Standard Java imports. These imports are needed to have the Config class working properly.
 import java.util.HashMap;
 import java.util.Map;
 
