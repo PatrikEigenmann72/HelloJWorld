@@ -19,6 +19,7 @@
  * Change Log:
  * Mon 2025-05-26 File created.                                     Version: 00.01
  * Thu 2025-08-21 Reorganized project structure and namespaces.     Version: 00.02
+ * Fri 2025-08-22 Improved logging and debugging capabilities.      Version: 00.03
  * ------------------------------------------------------------------------------- */
 import hellojworld.gui.*;
 import javax.swing.SwingUtilities;
@@ -59,10 +60,10 @@ public class App {
     public static void main(String[] args) {
 
         Debug.init(args);
-        Log.init(Config.get("App.LogName"));
+        Log.init(Config.getString("App.LogName"));
 
         Debug.setBitmask(Debug.DebugLevel.All.value);
-        Log.setBitmask(Log.LogLevel.All.value);
+        Log.setBitmask(Log.LogLevel.Error.value | Log.LogLevel.Warning.value);
 
         Debug.writeLine(Debug.DebugLevel.Info, "Application is starting...", "App");
         Log.writeLine(Log.LogLevel.Info, "Application is starting...", "App");
