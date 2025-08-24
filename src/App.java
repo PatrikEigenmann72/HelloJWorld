@@ -63,7 +63,7 @@ public class App {
         Log.init(Config.getString("App.LogName"));
 
         Debug.setBitmask(Debug.DebugLevel.All.value);
-        Log.setBitmask(Log.LogLevel.Error.value | Log.LogLevel.Warning.value);
+        Log.setBitmask(Log.LogLevel.All.value);
 
         Debug.writeLine(Debug.DebugLevel.Info, "Application is starting...", "App");
         Log.writeLine(Log.LogLevel.Info, "Application is starting...", "App");

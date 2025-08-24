@@ -11,8 +11,9 @@
 // GitHub:          https://github.com/PatrikEigenmann72/HelloJWorld
 // --------------------------------------------------------------------------------------------
 // Change Log:
-// Tue 2025-08-19 Initial Java implementation based on Debug.java.           Version: 00.01
-// Tue 2025-08-19 Replaced try-with-resources with explicit close().         Version: 00.02
+// Tue 2025-08-19 Initial Java implementation based on Debug.java.                  Version: 00.01
+// Tue 2025-08-19 Replaced try-with-resources with explicit close().                Version: 00.02
+// Sun 2025-08-24 Making sure that Log file is in the personal documents folder.    Version: 00.03
 // --------------------------------------------------------------------------------------------
 package samael.huginandmunin;
 
@@ -29,6 +30,18 @@ import java.time.format.DateTimeFormatter;
  * (application name.log). The file will be stored in the user's Documents\Logs directory.
  */
 public final class Log {
+
+    /**
+     * ANSI escape code for red text. Needed in the in-class debug section.
+     * I decided to use in-class debug messages to avoid dependencies on other classes.
+     */
+    private static final String ANSI_RED = "\u001B[31m";
+
+    /**
+     * ANSI escape code for resetting text color. Needed in the in-class debug section.
+     * I decided to use in-class debug messages to avoid dependencies on other classes.
+     */
+    private static final String ANSI_RESET = "\u001B[0m";
 
     /**
      * This enum defines the different log levels available in the logging utility.
@@ -67,10 +80,10 @@ public final class Log {
      * The init method initializes the logging utility with a specific log file name.
      */
     public static void init(String fileName) {
-        String home = System.getProperty("user.home");
-        File logDir = new File(home, "Documents\\Logs");
+        String documentFolder = getDocumentsPath();
+        File logDir = new File(documentFolder, "Logs");
         if (!logDir.exists() && !logDir.mkdirs()) {
-            System.err.println("Failed to create log directory: " + logDir.getAbsolutePath());
+            debug("Failed to create log directory: " + logDir.getAbsolutePath());
             return;
         }
 
@@ -81,7 +94,7 @@ public final class Log {
             writer = new PrintWriter(new FileWriter(logFileName, false));
             // Overwrite file with empty start
         } catch (IOException ex) {
-            System.err.println("Failed to initialize log file: " + ex.getMessage());
+            debug("Failed to initialize log file: " + ex.getMessage());
         } finally {
             close(writer);
         }
@@ -112,7 +125,7 @@ public final class Log {
             writer = open();
             writer.println(line);
         } catch (IOException ex) {
-            System.err.println("Log write failed: " + ex.getMessage());
+            debug("Log write failed: " + ex.getMessage());
         } finally {
             close(writer);
         }
@@ -134,7 +147,7 @@ public final class Log {
                 writer.println("  at " + elem.toString());
             }
         } catch (IOException e) {
-            System.err.println("Exception log failed: " + e.getMessage());
+            debug("Exception log failed: " + e.getMessage());
         } finally {
             close(writer);
         }
@@ -157,5 +170,62 @@ public final class Log {
         if (writer != null) {
             writer.close();
         }
+    }
+
+    /**
+     * Resolves the user's personal Documents folder path on Windows systems.
+     * <p>
+     * This method invokes PowerShell to query the actual location of the "MyDocuments" folder,
+     * ensuring compatibility with redirected folders (e.g., moved to a secondary drive).
+     * The result is trimmed and returned as a string. If the PowerShell invocation fails
+     * or returns an empty result, the method falls back to the default profile-based path
+     * using {@code user.home\Documents}.
+     * <p>
+     * This approach avoids external dependencies and ensures lean, platform-aware behavior.
+     *
+     * @return The absolute path to the user's Documents folder, respecting redirection if available.
+     */
+    public static String getDocumentsPath() {
+        try {
+            ProcessBuilder pb = new ProcessBuilder(
+                "powershell", "-Command",
+                "[Environment]::GetFolderPath('MyDocuments')"
+            );
+            pb.redirectErrorStream(true);
+            Process process = pb.start();
+
+            try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(process.getInputStream()))) {
+                String path = reader.readLine();
+
+                process.waitFor();  // Ensure process completes
+                process.destroy();  // Explicitly destroy
+
+                return path != null ? path.trim() : null;
+            }
+        } catch (IOException | InterruptedException e) {
+            debug("Getting Document Path failed, fallback to " + System.getProperty("user.home") + "\\Documents");
+            return System.getProperty("user.home") + "\\Documents"; // fallback
+        }
+    }
+
+    /**
+     * Logs debug information for configuration errors.
+     * @param key The configuration key that caused the error.
+     * @param value The configuration value that caused the error.
+     * @param type The expected type of the configuration value.
+     */
+    private static void debug(String msg) {
+        String timestamp = java.time.LocalTime.now()
+            .truncatedTo(java.time.temporal.ChronoUnit.MILLIS)
+            .toString(); // e.g. 20:32:56.286
+
+        System.out.println(String.format(
+            "%s%s [Error] [Log] %s%s",
+            ANSI_RED,
+            timestamp,
+            msg,
+            ANSI_RESET
+        ));
     }
 }
