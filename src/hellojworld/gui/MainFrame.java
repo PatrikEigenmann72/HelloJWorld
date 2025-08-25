@@ -34,8 +34,6 @@ import javax.swing.AbstractAction;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
-
-// Importing samael.huginandmunin package
 import samael.huginandmunin.*;
 
 /**
@@ -95,7 +93,6 @@ public class MainFrame extends JFrame {
 
         Debug.writeLine(Debug.DebugLevel.Verbose, "Binding Ctrl+Q to exit action", "MainFrame");
         Log.writeLine(Log.LogLevel.Verbose, "Binding Ctrl+Q to exit action", "MainFrame");
-
         getRootPane().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Q, KeyEvent.CTRL_DOWN_MASK), "exitApp");
         getRootPane().getActionMap().put("exitApp", new AbstractAction() {
             @Override
