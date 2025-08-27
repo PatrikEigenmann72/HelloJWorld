@@ -211,9 +211,7 @@ public final class Log {
 
     /**
      * Logs debug information for configuration errors.
-     * @param key The configuration key that caused the error.
-     * @param value The configuration value that caused the error.
-     * @param type The expected type of the configuration value.
+     * @param msg The message that need to be displayed.
      */
     private static void debug(String msg) {
         String timestamp = java.time.LocalTime.now()
