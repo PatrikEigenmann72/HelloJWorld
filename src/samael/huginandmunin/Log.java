@@ -186,6 +186,9 @@ public final class Log {
      * @return The absolute path to the user's Documents folder, respecting redirection if available.
      */
     public static String getDocumentsPath() {
+        String os = System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("win")) {
         try {
             ProcessBuilder pb = new ProcessBuilder(
                 "powershell", "-Command",
@@ -197,16 +200,21 @@ public final class Log {
             try (BufferedReader reader = new BufferedReader(
                 new InputStreamReader(process.getInputStream()))) {
                 String path = reader.readLine();
+                    process.waitFor();
+                    process.destroy();
 
-                process.waitFor();  // Ensure process completes
-                process.destroy();  // Explicitly destroy
-
-                return path != null ? path.trim() : null;
+                    if (path != null && !path.trim().isEmpty()) {
+                        return path.trim();
+                    }
             }
         } catch (IOException | InterruptedException e) {
-            debug("Getting Document Path failed, fallback to " + System.getProperty("user.home") + "\\Documents");
-            return System.getProperty("user.home") + "\\Documents"; // fallback
+                debug("PowerShell failed, falling back to user.home/Documents");
+            }
+            return System.getProperty("user.home") + File.separator + "Documents";
         }
+
+        // macOS, Linux, etc.
+        return System.getProperty("user.home") + File.separator + "Documents";
     }
 
     /**
