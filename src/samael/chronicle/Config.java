@@ -24,8 +24,10 @@
  * Thu 2025-08-21 Added support for char configuration values.                      Version: 00.11
  * Fri 2025-08-22 Added support for String configuration values.                    Version: 00.12
  * Fri 2025-08-22 Private scope for get method.                                     Version: 00.13
+ * Wed 2025-09-17 Added App.IconName for loading the application icon.              Version: 00.14
+ * Wed 2025-09-17 Switched the package from huginandmunin to chronicle.             Version: 00.15
  * ------------------------------------------------------------------------------------------------ */
-package samael.huginandmunin;
+package samael.chronicle;
 
 // Standard Java imports. These imports are needed to have the Config class working properly.
 import java.util.HashMap;
@@ -70,13 +72,14 @@ public final class Config {
     private Config() {
         settings = new HashMap<>();
         setSetting("App.Name", "HelloJWorld");
-        setSetting("App.Version", "00.03");
+        setSetting("App.Version", "00.06");
         setSetting("App.Author", "Patrik Eigemann");
         setSetting("App.Label.Text", "Hello Java World!");
         setSetting("App.Label.Font", "Courier New");
         setSetting("App.LogName", "HelloJWorld.log");
         setSetting("App.Width", "300");
         setSetting("App.Height", "120");
+        setSetting("App.IconName", "home.png");
     }
 
     /**

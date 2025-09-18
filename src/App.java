@@ -20,10 +20,15 @@
  * Mon 2025-05-26 File created.                                     Version: 00.01
  * Thu 2025-08-21 Reorganized project structure and namespaces.     Version: 00.02
  * Fri 2025-08-22 Improved logging and debugging capabilities.      Version: 00.03
+ * Wed 2025-09-17 Updated Config from huginandmunin to chronicle.   Version: 00.04
+ * Thu 2025-09-18 Implemented samael.scribe.ResourceLoader.         Version: 00.05
+ * Thu 2025-09-18 Logged more sophisticated messages.               Version: 00.06
  * ------------------------------------------------------------------------------- */
 import hellojworld.gui.*;
 import javax.swing.SwingUtilities;
 import samael.huginandmunin.*;
+import samael.chronicle.Config;
+import samael.scribe.ResourceLoader;
 
 /**
  * App.java -  The App class serves as the entry point for the application. When
@@ -59,19 +64,35 @@ public class App {
      */
     public static void main(String[] args) {
 
+        String msg1;
+
         Debug.init(args);
         Log.init(Config.getString("App.LogName"));
 
         Debug.setBitmask(Debug.DebugLevel.All.value);
         Log.setBitmask(Log.LogLevel.All.value);
 
-        Debug.writeLine(Debug.DebugLevel.Info, "Application is starting...", "App");
-        Log.writeLine(Log.LogLevel.Info, "Application is starting...", "App");
+        msg1 = "Starting " + Config.getString("App.Name") + " " + Config.getString("App.Version");
+        Debug.writeLine(Debug.DebugLevel.Info, msg1, "App");
+        Log.writeLine(Log.LogLevel.Info, msg1, "App");
         
         // Using SwingUtilities.invokeLater to start a
         // Swing application as background task.
         SwingUtilities.invokeLater(() -> {
+            String msg2 = "Launching main frame.";
+            Debug.writeLine(Debug.DebugLevel.Info, msg2, "App");
+            Log.writeLine(Log.LogLevel.Info, msg2, "App");
+
             MainFrame mf = new MainFrame();
+            
+            msg2 = "Loading application icon: " + Config.getString("App.IconName");
+            Debug.writeLine(Debug.DebugLevel.Info, msg2, "App");
+            Log.writeLine(Log.LogLevel.Info, msg2, "App");
+            mf.setIconImage(ResourceLoader.loadIcon(Config.getString("App.IconName")));
+            
+            msg2 = "Making main frame visible.";
+            Debug.writeLine(Debug.DebugLevel.Info, msg2, "App");
+            Log.writeLine(Log.LogLevel.Info, msg2, "App");
             mf.setVisible(true);
         });
     }

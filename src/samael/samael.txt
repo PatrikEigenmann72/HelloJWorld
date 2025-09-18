@@ -1,0 +1,9 @@
+samael.alchemy           // Utility classes: conversions, formatters, etc.
+samael.babel             // Cryptography: encoding, bit manipulation, Enigma
+samael.chronicle         // Configurations and static declarations
+samael.entanglement      // Heavy math: signal processing, matrix ops, etc.
+samael.huginandmunin     // Logging and debugging: Debug, Log, runtime insight
+samael.necronomicon      // Database layer: persistence, queries, resurrection
+samael.raven             // Communication: sockets, HTTP, email, IPC
+samael.scribe            // File I/O: streaming, reading, writing, ResourceLoader
+samael.tabernacle        // UI dialogs: HelpDialog, FileDialog, etc.
