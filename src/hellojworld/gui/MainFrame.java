@@ -10,11 +10,11 @@
  * In software design, the main frame acts as the central hub, housing all core
  * functionalities while maintaining scalability for future enhancements. This ensures
  * flexibility in adapting to additional features and improved processing capabilities.
- * ---------------------------------------------------------------------------------------
+ * -------------------------------------------------------------------------------------------
  * Author:  Patrik Eigemann
  * eMail:   p.eigenmann72@gmail.com
  * GitHub:  www.github.com/PatrikEigemann72/HelloJWorld
- * ---------------------------------------------------------------------------------------
+ * -------------------------------------------------------------------------------------------
  * Change Log:
  * Mon 2025-05-26 File created.                                                 Version: 00.01
  * Thu 2025-08-21 samael.huginandmunin package imported.                        Version: 00.02
@@ -25,7 +25,8 @@
  * Fri 2025-08-22 Ctrl+Q to exit application added.                             Version: 00.07
  * Wed 2025-09-17 Updated Config from huginandmunin to chronicle.               Version: 00.08
  * Thu 2025-09-18 Updated the Debug and Log messages to be more sophisticated.  Version: 00.09
- * --------------------------------------------------------------------------------------- */
+ * Mon 2025-10-20 Tested ResourceLoader with new import path.                   Version: 00.10
+ * ------------------------------------------------------------------------------------------- */
 package hellojworld.gui;
 
 // Standard Java swing/awtimports.
@@ -38,7 +39,7 @@ import javax.swing.JLabel;
 import javax.swing.KeyStroke;
 import samael.huginandmunin.*;
 import samael.chronicle.Config;
-
+import samael.necronomicon.ResourceLoader;
 /**
  * This class serves as the primary window for the application. It
  * provides a structured layout for different sections, ensuring a clear separation of
@@ -91,7 +92,9 @@ public class MainFrame extends JFrame {
         msg = "Getting the label text from the configuration: " + Config.getString("App.Label.Text");
         Debug.writeLine(Debug.DebugLevel.Verbose, msg, "MainFrame");
         Log.writeLine(Log.LogLevel.Verbose, msg, "MainFrame");
-        JLabel label = new JLabel(Config.getString("App.Label.Text"), JLabel.CENTER);
+        //JLabel label = new JLabel(Config.getString("App.Label.Text"), JLabel.CENTER);
+        //JLabel label = new JLabel(ResourceLoader.loadText("hello.txt"), JLabel.CENTER);
+        JLabel label = new JLabel(ResourceLoader.loadHtml("hello.html"), JLabel.CENTER);
 
         msg = "Setting label font to " + Config.getString("App.Label.Font") + ", size 24.";
         Debug.writeLine(Debug.DebugLevel.Verbose, msg, "MainFrame");

@@ -17,8 +17,10 @@
  * Thu 2024-06-20 loadMarkdown implemented.                                         Version: 00.09
  * Thu 2024-06-20 loadHtml implemented.                                             Version: 00.10
  * Thu 2024-06-20 loadCss implemented.                                              Version: 00.11
+ * Mon 2025-10-20 Updated the way debug messages are generated.                     Version: 00.12
+ * Mon 2025-10-20 Restructured import paths. New is samael.necronomicon, not scribe.Version: 00.13
  * ------------------------------------------------------------------------------------------------ */
-package samael.scribe;
+package samael.necronomicon;
 
 // Standard Java imports would go here.
 import java.io.InputStream;             // For returning the resource stream
@@ -43,27 +45,31 @@ public class ResourceLoader {
      * @return an {@link InputStream} of the resource, or {@code null} if loading fails
      */
     protected static InputStream loadResource(String resource) {
-        debug("Info", "Attempting to load resource: " + resource);
+        String msg = "ResourceLoader.loadResource() called with resource: " + resource;
+        debug("Info", msg);
 
         InputStream stream = ResourceLoader.class.getClassLoader().getResourceAsStream(resource);
         if (stream != null) {
-            debug("Info", "Loaded from classpath: " + resource);
+            msg = "Successfully loaded resource from classpath: " + resource;
+            debug("Info", msg);
             return stream;
         }
 
         java.nio.file.Path fallback = java.nio.file.Paths.get(resource);
         if (java.nio.file.Files.exists(fallback)) {
             try {
-                debug("Warning", "Classpath failed. Attempting filesystem fallback: " + fallback);
+                msg = "Resource not found in classpath. Falling back to filesystem: " + fallback;
+                debug("Warning", msg);
                 return new java.io.FileInputStream(fallback.toFile());
             } catch (Exception e) {
-                debug("Error", "Failed to open fallback file: " + fallback);
+                msg = "Failed to load resource from filesystem fallback: " + fallback;
+                debug("Error", msg);
                 debug("Error", e.toString());
                 return null;
             }
         }
-
-        debug("Error", "Resource not found in classpath or filesystem: " + resource);
+        msg = "Resource not found in classpath or filesystem: " + resource;
+        debug("Error", msg);
         return null;
     }
     //#endregion
@@ -82,16 +88,19 @@ public class ResourceLoader {
      */
     public static java.awt.Image loadIcon(String icon) {
         String resource = "resources/icons/" + icon;
-        debug("Info", "Preparing to load icon: " + resource);
+        String msg = "Preparing to load icon: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing icon resource: " + resource);
+                msg = "Missing icon resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
             return javax.imageio.ImageIO.read(stream);
         } catch (Exception e) {
-            debug("Error", "Failed to load icon: " + resource);
+            msg = "Failed to load icon: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -110,16 +119,19 @@ public class ResourceLoader {
      */
     public static java.awt.Image loadPicture(String picture) {
         String resource = "resources/pictures/" + picture;
-        debug("Info", "Preparing to load picture: " + resource);
+        String msg = "Preparing to load picture: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing picture resource: " + resource);
+                msg = "Missing picture resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
             return javax.imageio.ImageIO.read(stream);
         } catch (Exception e) {
-            debug("Error", "Failed to load picture: " + resource);
+            msg = "Failed to load picture: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -138,17 +150,20 @@ public class ResourceLoader {
      */
     public static String loadText(String file) {
         String resource = "resources/text/" + file;
-        debug("Info", "Preparing to load text: " + resource);
+        String msg = "Preparing to load text: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing text resource: " + resource);
+                msg = "Missing text resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
-            debug("Error", "Failed to load text: " + resource);
+            msg = "Failed to load text: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -167,17 +182,20 @@ public class ResourceLoader {
      */
     public static byte[] loadBin(String file) {
         String resource = "resources/bin/" + file;
-        debug("Info", "Preparing to load binary: " + resource);
+        String msg = "Preparing to load binary: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing binary resource: " + resource);
+                msg = "Missing binary resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
 
             return stream.readAllBytes();
         } catch (Exception e) {
-            debug("Error", "Failed to load binary: " + resource);
+            msg = "Failed to load binary: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -196,11 +214,13 @@ public class ResourceLoader {
      */
     public static InputStream loadAudio(String audio) {
         String resource = "resources/audio/" + audio;
-        debug("Info", "Preparing to load audio: " + resource);
+        String msg = "Preparing to load audio: " + resource;
+        debug("Info", msg);
 
         InputStream stream = loadResource(resource);
         if (stream == null) {
-            debug("Error", "Missing audio resource: " + resource);
+            msg = "Missing audio resource: " + resource;
+            debug("Error", msg);
             return null;
         }
 
@@ -220,17 +240,20 @@ public class ResourceLoader {
      */
     public static String loadMarkdown(String file) {
         String resource = "resources/markdown/" + file;
-        debug("Info", "Preparing to load markdown: " + resource);
+        String msg = "Preparing to load markdown: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing markdown resource: " + resource);
+                msg = "Missing markdown resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
-            debug("Error", "Failed to load markdown: " + resource);
+            msg = "Failed to load markdown: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -249,17 +272,20 @@ public class ResourceLoader {
      */
     public static String loadHtml(String file) {
         String resource = "resources/html/" + file;
-        debug("Info", "Preparing to load HTML: " + resource);
+        String msg = "Preparing to load HTML: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing HTML resource: " + resource);
+                msg = "Missing HTML resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
-            debug("Error", "Failed to load HTML: " + resource);
+            msg = "Failed to load HTML: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }
@@ -278,17 +304,20 @@ public class ResourceLoader {
      */
     public static String loadCss(String file) {
         String resource = "resources/css/" + file;
-        debug("Info", "Preparing to load CSS: " + resource);
+        String msg = "Preparing to load CSS: " + resource;
+        debug("Info", msg);
 
         try (InputStream stream = loadResource(resource)) {
             if (stream == null) {
-                debug("Error", "Missing CSS resource: " + resource);
+                msg = "Missing CSS resource: " + resource;
+                debug("Error", msg);
                 return null;
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
-            debug("Error", "Failed to load CSS: " + resource);
+            msg = "Failed to load CSS: " + resource;
+            debug("Error", msg);
             debug("Error", e.toString());
             return null;
         }

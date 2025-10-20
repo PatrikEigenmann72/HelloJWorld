@@ -23,12 +23,13 @@
  * Wed 2025-09-17 Updated Config from huginandmunin to chronicle.   Version: 00.04
  * Thu 2025-09-18 Implemented samael.scribe.ResourceLoader.         Version: 00.05
  * Thu 2025-09-18 Logged more sophisticated messages.               Version: 00.06
+ * Mon 2025-10-20 Restructured ResourceLoader import path.          Version: 00.07
  * ------------------------------------------------------------------------------- */
 import hellojworld.gui.*;
 import javax.swing.SwingUtilities;
 import samael.huginandmunin.*;
 import samael.chronicle.Config;
-import samael.scribe.ResourceLoader;
+import samael.necronomicon.ResourceLoader;
 
 /**
  * App.java -  The App class serves as the entry point for the application. When
