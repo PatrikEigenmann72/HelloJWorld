@@ -19,6 +19,8 @@
  * Thu 2024-06-20 loadCss implemented.                                              Version: 00.11
  * Mon 2025-10-20 Updated the way debug messages are generated.                     Version: 00.12
  * Mon 2025-10-20 Restructured import paths. New is samael.necronomicon, not scribe.Version: 00.13
+ * Mon 2025-10-20 Updated java.io.FileInputStream & java.io.IOException because of  Version: 00.14
+ *                being unused.
  * ------------------------------------------------------------------------------------------------ */
 package samael.necronomicon;
 
@@ -60,8 +62,8 @@ public class ResourceLoader {
             try {
                 msg = "Resource not found in classpath. Falling back to filesystem: " + fallback;
                 debug("Warning", msg);
-                return new java.io.FileInputStream(fallback.toFile());
-            } catch (Exception e) {
+                return new FileInputStream(fallback.toFile());
+            } catch (IOException e) {
                 msg = "Failed to load resource from filesystem fallback: " + fallback;
                 debug("Error", msg);
                 debug("Error", e.toString());
@@ -98,7 +100,7 @@ public class ResourceLoader {
                 return null;
             }
             return javax.imageio.ImageIO.read(stream);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load icon: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -129,7 +131,7 @@ public class ResourceLoader {
                 return null;
             }
             return javax.imageio.ImageIO.read(stream);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load picture: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -161,7 +163,7 @@ public class ResourceLoader {
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load text: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -193,7 +195,7 @@ public class ResourceLoader {
             }
 
             return stream.readAllBytes();
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load binary: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -251,7 +253,7 @@ public class ResourceLoader {
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load markdown: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -283,7 +285,7 @@ public class ResourceLoader {
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load HTML: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
@@ -315,7 +317,7 @@ public class ResourceLoader {
             }
 
             return new String(stream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-        } catch (Exception e) {
+        } catch (IOException e) {
             msg = "Failed to load CSS: " + resource;
             debug("Error", msg);
             debug("Error", e.toString());
